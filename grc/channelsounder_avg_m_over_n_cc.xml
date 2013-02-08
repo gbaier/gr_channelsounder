@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<block>
+  <name>avg_m_over_n_cc</name>
+  <key>channelsounder_avg_m_over_n_cc</key>
+  <category>Channel Sounder</category>
+  <import>import channelsounder</import>
+  <make>channelsounder.avg_m_over_n_cc($m, $win_size)</make>
+  <param>
+	<name>M</name>
+    	<key>m</key>
+    	<type>int</type>
+  </param>
+  <param>
+	<name>Window Size</name>
+    	<key>win_size</key>
+    	<type>int</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+  <doc>
+Takes M-times the average over a vector of size Window Size.
+  </doc>
+</block>

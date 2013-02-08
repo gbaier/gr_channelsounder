@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<block>
+  <name>MLS Correlator</name>
+  <key>channelsounder_mls_corr</key>
+  <category>Channel Sounder</category>
+  <import>import channelsounder</import>
+  <make>channelsounder.mls_correlator($degree, $mask, $seed)</make>
+	<param>
+		<name>Degree</name>
+		<key>degree</key>
+		<type>int</type>
+	</param>
+	<param>
+		<name>Mask</name>
+		<key>mask</key>
+		<value>0</value>
+		<type>int</type>
+	</param>
+	<param>
+		<name>Seed</name>
+		<key>seed</key>
+		<value>1</value>
+		<type>int</type>
+	</param>
+	<sink>
+		<name>in</name>
+		<type>complex</type>
+	</sink>
+	<source>
+		<name>out</name>
+		<type>complex</type>
+	</source>
+	<doc>
+Correlates sample-wise the input stream with the maximum length sequence defined by the parameters.
+This block is based on the gr-digital/pn_correlator_cc.
+
+Parameters:
+----------
+degree : Degree of shift register must be in [1, 32]. If mask is 0, the degree determines a default mask (see digital_impl_glfsr.cc for the mapping).
+mask :   Allows a user-defined bit mask for indexes of the shift register that are fed back.
+seed :   Initial setting for values in the shift register.
+</doc>
+</block>

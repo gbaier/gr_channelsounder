@@ -1,0 +1,45 @@
+<block>
+  <name>ChannelSounder Qt Sink</name>
+  <key>cs_sink_c</key>
+  <category>Channel Sounder</category>
+  <import>from channelsounder.channelsounder_qt_sink_c import *</import>
+  <make>channelsounder_qt_sink_c($samp_rate, $prf, $ntau, $nt)
+self.top_grid_layout.addWidget(self.$(id).pyqwidget())</make>
+	<param>
+		<name>Sample Rate</name>
+		<key>samp_rate</key>
+		<value>samp_rate</value>
+		<type>real</type>
+	</param>
+	<param>
+		<name>Pulse Repetition Frequency</name>
+		<key>prf</key>
+		<type>real</type>
+	</param>
+	<param>
+		<name>Length of Pulse</name>
+		<key>ntau</key>
+		<type>int</type>
+	</param>
+	<param>
+		<name>Number of measuremts</name>
+		<key>nt</key>
+		<type>int</type>
+	</param>
+	<sink>
+		<name>in</name>
+		<type>complex</type>
+	</sink>
+	<doc>
+Graphical channel sounder sink based on qt and pyqwt.
+Plots the power delay profile, the channel impulse response and the scattering function.
+The plots get updated every 100ms.
+
+Parameters:
+-----------
+Sample Rate: Used to scale the delay axis of the power delay profile and the channel impulse response plots.
+Pulse Repetition Frequency: Used to scale the frequency axis of the scattering function plot.
+Length of Pulse: determines the length of one channel sounder measurement.
+Number of measurements: how many measurements are averaged for the power delay profile plot or used to compute the scattering function.
+	</doc>
+</block>
