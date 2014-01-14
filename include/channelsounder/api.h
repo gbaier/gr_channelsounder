@@ -22,7 +22,7 @@
 #ifndef INCLUDED_CHANNELSOUNDER_API_H
 #define INCLUDED_CHANNELSOUNDER_API_H
 
-#include <gruel/attributes.h>
+#include <gnuradio/attributes.h>
 
 #ifdef gnuradio_channelsounder_EXPORTS
 #  define CHANNELSOUNDER_API __GR_ATTR_EXPORT

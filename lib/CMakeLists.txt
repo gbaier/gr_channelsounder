@@ -19,8 +19,32 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-add_library(gnuradio-channelsounder SHARED channelsounder_mls_correlator.cc channelsounder_avg_m_over_n_cc.cc )
-target_link_libraries(gnuradio-channelsounder ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES})
+
+include_directories(
+    ${Boost_INCLUDE_DIR}
+    ${GR_DIGITAL_INCLUDE_DIRS}
+    ${GR_BLOCKS_INCLUDE_DIRS}
+    ${GNURADIO_RUNTIME_INCLUDE_DIRS}
+    ${VOLK_INCLUDE_DIRS}
+)
+
+link_directories(${Boost_LIBRARY_DIRS})
+
+list(APPEND channelsounder_sources
+    mls_correlator_impl.cc
+    avg_m_over_n_cc_impl.cc
+)
+
+list(APPEND channelsounder_libs
+    volk
+    gnuradio-runtime
+    gnuradio-blocks
+    gnuradio-digital
+    ${Boost_LIBRARIES}
+)
+
+add_library(gnuradio-channelsounder SHARED ${channelsounder_sources})
+target_link_libraries(gnuradio-channelsounder ${dchannelsounder_libs} ${GNURADIO_ALL_LIBRARIES})
 set_target_properties(gnuradio-channelsounder PROPERTIES DEFINE_SYMBOL "gnuradio_channelsounder_EXPORTS")
 
 ########################################################################

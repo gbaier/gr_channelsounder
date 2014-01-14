@@ -1,7 +1,6 @@
 import numpy as np
 
 from gnuradio import gr
-import gnuradio.extras
 
 # necessary for data exchange between GNU Radio and Qt
 import threading

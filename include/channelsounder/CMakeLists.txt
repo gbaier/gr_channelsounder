@@ -1,4 +1,4 @@
-# Copyright 2011 Free Software Foundation, Inc.
+# Copyright 2011,2012 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
 #
@@ -21,7 +21,7 @@
 # Install public header files
 ########################################################################
 install(FILES
-    channelsounder_api.h
-    channelsounder_mls_correlator.h
-    channelsounder_avg_m_over_n_cc.h DESTINATION include/channelsounder
+    api.h
+    mls_correlator.h
+    avg_m_over_n_cc.h DESTINATION include/channelsounder
 )

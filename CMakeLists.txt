@@ -68,7 +68,7 @@ endif()
 include(GrPlatform) #define LIB_SUFFIX
 set(GR_RUNTIME_DIR      bin)
 set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
-set(GR_INCLUDE_DIR      include)
+set(GR_INCLUDE_DIR      include/channelsounder)
 set(GR_DATA_DIR         share)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})
 set(GR_DOC_DIR          ${GR_DATA_DIR}/doc)
@@ -82,31 +82,41 @@ set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 ########################################################################
 # Find gnuradio build dependencies
 ########################################################################
-find_package(Gruel)
-find_package(GnuradioCore)
+set(GR_REQUIRED_COMPONENTS RUNTIME DIGITAL) 
+find_package(Gnuradio "3.7.2" REQUIRED)
 
-if(NOT GRUEL_FOUND)
-    message(FATAL_ERROR "Gruel required to compile channelsounder")
+if(NOT GNURADIO_RUNTIME_FOUND)
+    message(FATAL_ERROR "GnuRadio Runtime required to compile channelsounder")
 endif()
 
-if(NOT GNURADIO_CORE_FOUND)
-    message(FATAL_ERROR "GnuRadio Core required to compile channelsounder")
+########################################################################
+# Find FFTW3f
+########################################################################
+find_package(FFTW3f)
+
+if(NOT FFTW3F_FOUND)
+    message(FATAL_ERROR "FFTW3f not found")
 endif()
 
 ########################################################################
 # Setup the include and linker paths
 ########################################################################
 include_directories(
+    ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/lib
+    ${CMAKE_BINARY_DIR}/include
     ${Boost_INCLUDE_DIRS}
-    ${GRUEL_INCLUDE_DIRS}
-    ${GNURADIO_CORE_INCLUDE_DIRS}
+    ${CPPUNIT_INCLUDE_DIRS}
+    ${GNURADIO_RUNTIME_INCLUDE_DIRS}
+    ${GNURADIO_ALL_INCLUDE_DIRS}
+    ${FFTW3F_INCLUDE_DIRS}
 )
 
 link_directories(
     ${Boost_LIBRARY_DIRS}
-    ${GRUEL_LIBRARY_DIRS}
-    ${GNURADIO_CORE_LIBRARY_DIRS}
+    ${GNURADIO_RUNTIME_LIBRARY_DIRS}
+    ${FFTW3F_LIBRARY_DIRS}
 )
 
 # Set component parameters
@@ -128,7 +138,7 @@ add_custom_target(uninstall
 ########################################################################
 # Add subdirectories
 ########################################################################
-add_subdirectory(include)
+add_subdirectory(include/channelsounder)
 add_subdirectory(lib)
 add_subdirectory(swig)
 add_subdirectory(python)
