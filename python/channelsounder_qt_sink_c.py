@@ -1,6 +1,6 @@
 import numpy as np
 
-from gnuradio import gr
+from gnuradio import gr, blocks
 
 # necessary for data exchange between GNU Radio and Qt
 import threading
@@ -14,7 +14,7 @@ from channelsounder_qt_sink_c_scatter_plot import *
 from channelsounder_qt_sink_c_cir_plot import *
 from channelsounder_qt_sink_c_pdp_plot import *
 
-class channelsounder_qt_sink_c(gr.block):
+class channelsounder_qt_sink_c(gr.sync_block):
     """ GNU Radio channelsounder QT sink """
 
     def __init__(self, samp_rate, prf, ntau, nt):
@@ -30,7 +30,7 @@ class channelsounder_qt_sink_c(gr.block):
              Length of the transmitted pulse
 
         """
-        gr.block.__init__(
+        gr.sync_block.__init__(
             self,
             name = "channelsounder sink c",
             in_sig = [np.complex64],
