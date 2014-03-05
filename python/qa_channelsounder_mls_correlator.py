@@ -19,8 +19,7 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-from gnuradio import digital
+from gnuradio import gr, gr_unittest, digital, blocks
 
 import channelsounder_swig
 
@@ -39,14 +38,14 @@ class qa_mls_correlator (gr_unittest.TestCase):
 
         # send a maximum length sequence with period 31
         src_real = digital.glfsr_source_f(self.degree, True, 0, 1)
-        src_imag = gr.null_source(gr.sizeof_float*1)
-        f2c = gr.float_to_complex(1)
+        src_imag = blocks.null_source(gr.sizeof_float*1)
+        f2c = blocks.float_to_complex(1)
 
         mls_correlator = channelsounder_swig.mls_correlator(self.degree, mask = 0, seed = 1)
 
         # keep only the samples of the first two autocorrelation periods
-        head = gr.head(gr.sizeof_gr_complex, 2*self.length)
-        dest = gr.vector_sink_c(1)
+        head = blocks.head(gr.sizeof_gr_complex, 2*self.length)
+        dest = blocks.vector_sink_c(1)
 
         self.tb.connect( src_real, (f2c, 0))
         self.tb.connect( src_imag, (f2c, 1))
