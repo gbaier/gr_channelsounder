@@ -19,7 +19,7 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
+from gnuradio import gr, gr_unittest, blocks
 import channelsounder_swig
 
 class qa_avg_m_over_n_cc (gr_unittest.TestCase):
@@ -38,14 +38,13 @@ class qa_avg_m_over_n_cc (gr_unittest.TestCase):
         expected_result = [0, 0, 10, 10, 10, 15, 20, 10, 10, 40]
         expected_result = [ float(el)/4 for el in expected_result ]
 
-        src = gr.vector_source_c(data, True)
+        src = blocks.vector_source_c(data, True)
         avg_4_over_10 = channelsounder_swig.avg_m_over_n_cc(m = 4,
-                win_size=win_size)
-        head = gr.head(gr.sizeof_gr_complex, win_size)
-        dest = gr.vector_sink_c(1)
+                                                            win_size = win_size)
+        head = blocks.head(gr.sizeof_gr_complex, win_size)
+        dest = blocks.vector_sink_c(1)
 
-        self.tb.connect(src, avg_4_over_10)
-        self.tb.connect(avg_4_over_10, head, dest)
+        self.tb.connect(src, avg_4_over_10, head, dest)
         # set up fg
         self.tb.run ()
 
