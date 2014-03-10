@@ -51,6 +51,7 @@ namespace gr {
         set_alignment(std::max(1,alignment_multiple));
         d_avg = (gr_complex*)fftwf_malloc(sizeof(gr_complex)*d_win_size);
         memset(d_avg, 0, d_win_size*sizeof(gr_complex));
+        set_min_noutput_items(d_win_size);
     }
 
 
@@ -63,7 +64,11 @@ namespace gr {
     avg_m_over_n_cc_impl::forecast (int noutput_items,
                           gr_vector_int &ninput_items_required) 	
     {
-        ninput_items_required[0] = noutput_items;
+        if (noutput_items < d_win_size) {
+            ninput_items_required[0] = d_m*d_win_size;
+        } else {
+            ninput_items_required[0] = d_m*noutput_items;
+        }
     }
 
     int
@@ -75,30 +80,28 @@ namespace gr {
         const gr_complex *in = (const gr_complex*) input_items[0];
         gr_complex *out = (gr_complex*) output_items[0];
 
-        if ( (ninput_items[0] < d_win_size) || (noutput_items < d_win_size) )
-        {
+        // if we do not have enough input samples wait for more
+        if (ninput_items[0] < d_win_size) {
             return 0;
         }
 
+        // add to average
         d_counter++;
-        if( is_unaligned() )
+        if( is_unaligned() ) {
             volk_32f_x2_add_32f_u((float*) d_avg, (float*) d_avg, (float*) in, 2*d_win_size);
-        else
+        } else {
             volk_32f_x2_add_32f_a((float*) d_avg, (float*) d_avg, (float*) in, 2*d_win_size);
+        }
         consume_each(d_win_size);
 
-        if (d_counter == d_m)
-        {
+        if (d_counter == d_m) {
             d_counter=0;
-            for(int i=0; i<d_win_size; i++)
-            {
+            for(int i=0; i<d_win_size; i++) {
                 out[i] = d_avg[i]/gr_complex(d_m, 0);
             }
             memset(d_avg, 0, d_win_size*sizeof(gr_complex));
             return d_win_size;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
