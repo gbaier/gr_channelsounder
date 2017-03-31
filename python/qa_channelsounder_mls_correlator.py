@@ -21,7 +21,7 @@
 
 from gnuradio import gr, gr_unittest, digital, blocks
 
-import channelsounder_swig
+import channelsounder
 
 class qa_mls_correlator (gr_unittest.TestCase):
 
@@ -41,7 +41,7 @@ class qa_mls_correlator (gr_unittest.TestCase):
         src_imag = blocks.null_source(gr.sizeof_float*1)
         f2c = blocks.float_to_complex(1)
 
-        mls_correlator = channelsounder_swig.mls_correlator(self.degree, mask = 0, seed = 1)
+        mls_correlator = channelsounder.mls_correlator(self.degree, mask = 0, seed = 1)
 
         # keep only the samples of the first two autocorrelation periods
         head = blocks.head(gr.sizeof_gr_complex, 2*self.length)
